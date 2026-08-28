@@ -3,6 +3,32 @@
  * Everything a non-developer might need to change lives in this file.
  */
 
+/**
+ * The site's own origin, used for canonical URLs, the sitemap, robots.txt and
+ * the OpenGraph/structured data. Resolved rather than hardcoded so a Vercel
+ * deployment is correct with no edit:
+ *
+ *   1. NEXT_PUBLIC_SITE_URL          — set this once a custom domain is live.
+ *   2. VERCEL_PROJECT_PRODUCTION_URL — the project's production domain.
+ *   3. VERCEL_URL                    — the per-deployment preview domain.
+ *   4. localhost                     — local development.
+ *
+ * Only read on the server (metadata, sitemap, robots, seo), so the non-public
+ * Vercel variables are available.
+ */
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const production = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (production) return `https://${production}`;
+
+  const deployment = process.env.VERCEL_URL;
+  if (deployment) return `https://${deployment}`;
+
+  return "http://localhost:3000";
+}
+
 export const site = {
   brand: "TEAM VIGNESH",
   brandTop: "TEAM",
@@ -25,8 +51,12 @@ export const site = {
   region: "",
   country: "India",
 
-  /** EDITABLE — set once the site is live so metadata + sitemap are correct. */
-  url: "https://teamvignesh.com",
+  /**
+   * Resolved automatically — see resolveSiteUrl() above. To pin a custom
+   * domain, set NEXT_PUBLIC_SITE_URL in the Vercel project's env vars
+   * (e.g. https://teamvignesh.com) rather than editing this line.
+   */
+  url: resolveSiteUrl(),
 
   socials: {
     instagram: "https://www.instagram.com/vicky_judo_ka?igsi=N20yMjhzbXVhNTk3",
