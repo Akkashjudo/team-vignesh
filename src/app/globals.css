@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   TEAM VIGNESH — design tokens
+   --------------------------------------------------------------------------
+   ACCENT SWITCH: the whole site takes its performance colour from --accent.
+   Default is the deep athletic red that matches the TV logo mark.
+   To move the site to electric blue, replace the three --accent* values below
+   with the commented Electric Blue block. Nothing else needs to change.
+   ========================================================================== */
+
+:root {
+  /* Deep athletic red (default — matches the TV logo).
+     Values are RGB channels so Tailwind can apply opacity modifiers
+     (bg-accent/40, border-accent/60, …). */
+  --accent-rgb: 225 29 46;
+  --accent-text-rgb: 255 86 97; /* lighter tint — text on near-black */
+  --accent-ink-rgb: 200 16 46; /* darker shade — text on the warm off-white */
+
+  /* --- Electric blue alternative: swap the two lines above for these ---
+  --accent-rgb: 46 107 255;
+  --accent-text-rgb: 111 155 255;
+  --accent-ink-rgb: 27 74 199;
+  --------------------------------------------------------------------- */
+
+  --accent: rgb(var(--accent-rgb));
+  --accent-text: rgb(var(--accent-text-rgb));
+  --accent-ink: rgb(var(--accent-ink-rgb));
+  --accent-soft: rgb(var(--accent-rgb) / 0.14);
+
+  --ink: #080808;
+  --ink-elevated: #111111;
+  --bone: #f5f3ee;
+
+  --header-h: 76px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 88px;
+  }
+}
+
+* {
+  min-width: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Scroll-reveal elements are server-rendered at opacity 0 and brought in by
+   JS. The no-JS fallback that makes them visible lives in a <noscript> block
+   in layout.tsx, so it costs nothing when JavaScript is available. */
+
+/* Reduced motion, made deterministic.
+   `.reduce-motion` is set on <html> by an inline script in layout.tsx BEFORE
+   hydration. Framer Motion reads `initial` only once at mount, so a hook that
+   resolves the preference a render later cannot un-hide an element that has
+   already mounted at opacity 0. This rule guarantees the content is visible
+   for that audience no matter what the animation layer does afterwards.
+   It targets Framer's inline styles only, so CSS-class hover affordances
+   (`opacity-0` + `group-hover:opacity-100`) keep working as designed. */
+.reduce-motion [style*="opacity:0"],
+.reduce-motion [style*="opacity: 0"],
+.reduce-motion [style*="clip-path"] {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Guard against any single element pushing the page sideways on 360px. */
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
+
+@layer components {
+  /* ---- Layout shell ---------------------------------------------------- */
+  .shell {
+    width: 100%;
+    max-width: theme("maxWidth.shell");
+    margin-inline: auto;
+    padding-inline: theme("spacing.gutter");
+  }
+
+  .section {
+    padding-block: theme("spacing.section");
+  }
+
+  /* ---- Typography ------------------------------------------------------ */
+  .display {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .display-xl {
+    font-size: clamp(2.75rem, 8.6vw, 8.25rem);
+  }
+
+  .display-lg {
+    font-size: clamp(2.25rem, 6.2vw, 5.25rem);
+  }
+
+  .display-md {
+    font-size: clamp(1.75rem, 4.2vw, 3.25rem);
+  }
+
+  .display-sm {
+    font-size: clamp(1.375rem, 2.6vw, 2rem);
+    line-height: 1.02;
+  }
+
+  .label {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: theme("letterSpacing.label");
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .index {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .copy {
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  /* ---- Surfaces -------------------------------------------------------- */
+  .hairline {
+    border-color: theme("colors.ink.line");
+  }
+
+  .on-bone .hairline {
+    border-color: theme("colors.bone.line");
+  }
+
+  /* Fine technical grid used behind dark sections. */
+  .grid-field {
+    background-image: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.045) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 88px 88px;
+  }
+
+  .noise {
+    position: relative;
+  }
+
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+  }
+
+  /* ---- Links ----------------------------------------------------------- */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s;
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Pointer-specific effects only — never gate content behind hover. */
+  @media (pointer: fine) {
+    .hover-lift {
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.35s, background-color 0.35s;
+    }
+    .hover-lift:hover {
+      transform: translateY(-2px);
+    }
+    .hover-zoom img {
+      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hover-zoom:hover img {
+      transform: scale(1.035);
+    }
+    .hover-arrow svg,
+    .hover-arrow .arrow {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hover-arrow:hover svg,
+    .hover-arrow:hover .arrow {
+      transform: translateX(4px);
+    }
+  }
+}
