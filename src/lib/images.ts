@@ -50,6 +50,13 @@ export interface ImageSlot {
    *  have none on purpose: those must be real photographs. */
   prompt?: string;
   kind: "founder" | "client" | "support";
+  /**
+   * True while the slot is filled by a generated category tile rather than a
+   * photograph. Those are rendered with an empty alt: they are illustrative,
+   * and the card heading beside them already carries the meaning. Set this to
+   * false when you swap in real photography, and write a real alt.
+   */
+  decorative?: boolean;
 }
 
 function founder(id: string, file: string, alt: string, ratio: Ratio, note: string): ImageSlot {
@@ -68,7 +75,10 @@ function support(
   note: string,
   prompt: string,
 ): ImageSlot {
-  return { id, file, src: null, alt, ratio, note, prompt, kind: "support" };
+  // Ships filled with a generated category tile (scripts/generate-thumbnails.py)
+  // so no card is ever blank. Replace the file with a photograph and flip
+  // `decorative` to false.
+  return { id, file, src: file, alt, ratio, note, prompt, kind: "support", decorative: true };
 }
 
 export const images = {
@@ -294,9 +304,17 @@ export const images = {
   transformation03Before: client("transformation03Before", "/images/transformation-03-before.jpg", "Client transformation, before", "4/5", "Day 1 baseline photo."),
   transformation03After: client("transformation03After", "/images/transformation-03-after.jpg", "Client transformation, after", "4/5", "Progress photo."),
 
-  dayOne: client("dayOne", "/images/day-01.jpg", "Day 1 — baseline assessment", "1/1", "Assessment day: notes, measurements, first session."),
-  dayThirty: client("dayThirty", "/images/day-30.jpg", "Day 30 — progress review", "1/1", "Mid-programme check-in."),
-  daySixty: client("daySixty", "/images/day-60.jpg", "Day 60 — transformation review", "1/1", "Sixty-day review session."),
+  /* Programme milestone markers. These illustrate the PROCESS, not a client's
+     body, so they are filled with generated tiles rather than left blank. */
+  dayOne: support("dayOne", "/images/day-01.jpg", "Day 1 milestone marker", "1/1",
+    "Baseline milestone marker.",
+    "Assessment day: notebook, tape measure and the first session, dark gym, documentary."),
+  dayThirty: support("dayThirty", "/images/day-30.jpg", "Day 30 milestone marker", "1/1",
+    "Mid-programme milestone marker.",
+    "Mid-programme check-in: coach and client reviewing numbers together, dark gym."),
+  daySixty: support("daySixty", "/images/day-60.jpg", "Day 60 milestone marker", "1/1",
+    "Sixty-day milestone marker.",
+    "Sixty-day review session: measurements being taken, calm and factual, dark gym."),
 } satisfies Record<string, ImageSlot>;
 
 export type ImageKey = keyof typeof images;

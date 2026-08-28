@@ -56,3 +56,43 @@ export function useMediaQuery(query: string): boolean {
 
   return matches;
 }
+
+
+/**
+ * True once the page has scrolled past `threshold` pixels.
+ *
+ * rAF-throttled and shared, so the header and the floating WhatsApp button do
+ * not each run their own handler on every scroll event. The state only changes
+ * when the boolean flips, so React re-renders at most twice per crossing.
+ */
+export function useScrollPast(threshold: number): boolean {
+  const [past, setPast] = useState(false);
+
+  useEffect(() => {
+    let frame = 0;
+    let last = false;
+
+    const read = () => {
+      frame = 0;
+      const next = window.scrollY > threshold;
+      if (next !== last) {
+        last = next;
+        setPast(next);
+      }
+    };
+
+    const onScroll = () => {
+      if (frame) return;              // coalesce to one read per frame
+      frame = requestAnimationFrame(read);
+    };
+
+    read();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [threshold]);
+
+  return past;
+}

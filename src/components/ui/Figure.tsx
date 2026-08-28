@@ -61,7 +61,11 @@ export function Figure({
       {meta.src ? (
         <Image
           src={meta.src}
-          alt={meta.alt}
+          /* Generated category tiles are illustrative and always sit beside a
+             heading that carries the meaning, so they take an empty alt rather
+             than repeating it. Real photographs keep their description. */
+          alt={meta.decorative ? "" : meta.alt}
+          aria-hidden={meta.decorative || undefined}
           fill
           sizes={sizes}
           priority={priority}

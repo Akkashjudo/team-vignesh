@@ -18,7 +18,7 @@ export default function NotFound() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-20 top-1/2 -translate-y-1/2 opacity-[0.07] mix-blend-screen"
+        className="pointer-events-none absolute -right-20 top-1/2 -translate-y-1/2 opacity-[0.07]"
       >
         <LogoMark size={440} />
       </div>

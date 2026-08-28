@@ -10,23 +10,25 @@ const base =
   "font-display font-bold uppercase tracking-[0.06em] rounded-sm " +
   "transition-[background-color,color,border-color,transform] duration-300 ease-out " +
   "active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-[3px] " +
-  "disabled:opacity-40 disabled:pointer-events-none whitespace-nowrap";
+  "disabled:opacity-40 disabled:pointer-events-none text-center";
 
 const variants: Record<Variant, string> = {
   primary:
     "bg-accent text-white border border-accent hover:bg-white hover:text-ink hover:border-white",
   outline:
     "bg-transparent text-current border border-current/25 hover:border-current/70 hover:bg-current/[0.06]",
-  ghost: "bg-transparent text-current border border-transparent hover:text-accent-text px-0",
+  // Padding is left to the size class; call sites can override with !px-*.
+  ghost: "bg-transparent text-current border border-transparent hover:text-accent-text",
   whatsapp:
     "bg-transparent text-current border border-current/25 hover:bg-[#25D366] hover:text-ink hover:border-[#25D366]",
 };
 
 const sizes: Record<Size, string> = {
-  // Every tappable target clears 44px on touch.
-  sm: "h-11 px-4 text-[0.75rem]",
-  md: "h-12 px-5 text-[0.8125rem] sm:h-[3.25rem] sm:px-7",
-  lg: "h-[3.25rem] px-6 text-sm sm:h-16 sm:px-9 sm:text-base",
+  // min-height, not height: every target still clears 44px, but a long label
+  // on a 320px screen wraps instead of being clipped.
+  sm: "min-h-[2.75rem] px-4 py-2.5 text-[0.75rem]",
+  md: "min-h-[3rem] px-5 py-3 text-[0.8125rem] sm:min-h-[3.25rem] sm:px-7",
+  lg: "min-h-[3.25rem] px-6 py-3.5 text-sm sm:min-h-[4rem] sm:px-9 sm:text-base",
 };
 
 function Arrow() {

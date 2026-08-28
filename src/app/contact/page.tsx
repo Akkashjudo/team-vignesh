@@ -35,7 +35,7 @@ export default function ContactPage() {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -left-28 top-32 opacity-[0.06] mix-blend-screen"
+          className="pointer-events-none absolute -left-28 top-32 opacity-[0.06]"
         >
           <LogoMark size={460} />
         </div>

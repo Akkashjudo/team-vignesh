@@ -97,7 +97,7 @@ export function FounderSection() {
               <RevealItem>
                 <div className="mt-10">
                   <div className="flex items-center gap-4">
-                    <span className="label whitespace-nowrap text-bone/55">Qualifications</span>
+                    <span className="label shrink-0 text-bone/55">Qualifications</span>
                     <RevealLine className="text-bone/20" delay={0.15} />
                   </div>
 

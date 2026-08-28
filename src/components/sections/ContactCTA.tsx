@@ -32,7 +32,7 @@ export function ContactCTA({
       {/* Oversized watermark mark — sits behind the type, never competes with it. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-16 top-1/2 -translate-y-1/2 opacity-[0.07] mix-blend-screen sm:-right-8"
+        className="pointer-events-none absolute -right-16 top-1/2 -translate-y-1/2 opacity-[0.07] sm:-right-8"
       >
         <LogoMark size={520} />
       </div>

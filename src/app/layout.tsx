@@ -12,7 +12,7 @@ import { structuredData } from "@/lib/seo";
 const display = Archivo({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["600", "700", "800", "900"],
+  weight: ["700", "800"], // 600/900 are never used — see .display and font-bold
   display: "swap",
 });
 

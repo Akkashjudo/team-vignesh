@@ -84,34 +84,41 @@ Change those two lines to restyle every founder frame at once.
 
 ---
 
-## Images I could not produce
+## Supporting imagery
 
-**The generic supporting imagery is not generated.** I had no image-generation
-tool available in this session, so the training / nutrition / recovery /
-online-coaching slots still render designed placeholders.
+Every image slot on the site is filled — there are no blank containers.
 
-Everything needed to fill them is in place. Each support slot in
-`src/lib/images.ts` carries a written `prompt`, and `ART_DIRECTION` at the top
-of that file is the shared style preamble. Generate with:
+**These are generated category tiles, not photographs.** No image-generation
+tool was available, so rather than leave 21 cards empty they are filled with
+designed artwork produced by `scripts/generate-thumbnails.py`: a dark brand
+ground, a soft light pool, a geometric motif that reads for the category, fine
+grain and a vignette. They share one art direction, so a grid of them reads as
+one system.
+
+```bash
+python scripts/generate-thumbnails.py
+```
+
+**To replace one with a photograph**, drop a file into `public/images/` with
+the same name — it takes over automatically. Then set that slot's
+`decorative: false` in `images.ts` and write a real `alt`.
+
+Each support slot still carries a written `prompt`, and `ART_DIRECTION` at the
+top of `images.ts` is the shared style preamble, so photography can be
+generated or briefed consistently:
 
 ```
 <ART_DIRECTION>  +  <the slot's prompt>
 ```
 
-That keeps all of it on one art direction. Then drop the file into
-`public/images/` and change the slot's `src` from `null` to that path.
+Generated tiles take an **empty alt**: they are illustrative and the card
+heading beside them already carries the meaning, so a description would only
+add screen-reader noise — and would wrongly imply a photograph exists.
 
-Slots waiting on imagery: `strengthTraining`, `hypertrophy`, `conditioning`,
-`functional`, `fundamentals`, `personalTraining`, `onlineCoaching`,
-`offlineCoaching`, `nutrition`, `nutritionProtein`, `nutritionPre`,
-`nutritionPost`, `nutritionIndian`, `recovery`, `recoveryDeepTissue`,
-`recoveryMobility`, `journal01`–`journal04`.
-
-Placeholders come in two forms so none of them reads as an empty box:
-`detailed` (crop marks and a frame, for content slots) and `minimal` (a
-designed dark panel, for full-bleed backgrounds behind a scrim). In production
-the placeholder shows only the word "Photography" — slot ids and art-direction
-notes appear in development only.
+**The one exception:** the six client before/after slots stay empty on purpose.
+Fabricating a transformation result is not something the site will do. They
+only ever appear inside the "reserved for real client results" block, rendered
+as deliberate empty frames.
 
 ---
 
@@ -194,13 +201,40 @@ curve throughout — `cubic-bezier(.22, 1, .36, 1)`.
   values because one red cannot clear AA on both near-black and off-white.
 - Text over photography sits on a scrim strong enough to hold ~10:1 even
   against a light image, so contrast never depends on which photo goes in.
-- No horizontal overflow at 360 / 375 / 390 / 768 / 1024 / 1440.
+- No horizontal overflow, and no text clipped by an overflow container, at
+  320 / 375 / 390 / 430 / 768 / 1024 / 1280 / 1440.
 - One `<h1>` per page, labelled sections, skip link, focus-visible rings,
   Escape closes the mobile menu and returns focus to the toggle, scroll lock
   while it is open.
 - Tap targets ≥44px. Hover-only effects are gated behind `@media (pointer: fine)`
   and never carry meaning.
 - A `<noscript>` block makes scroll-revealed content visible with JS off.
+
+---
+
+## Performance
+
+Work done against the "feels slow" report, all measured rather than guessed:
+
+- **Removed two `blur-3xl` filters** from the hero. A 64px blur on a 70vh
+  element forces a large offscreen buffer every frame; a radial-gradient with a
+  soft falloff looks the same and costs nothing.
+- **Dropped `mix-blend-mode: soft-light`** from the grain layer. It forced a
+  compositing pass over the whole hero. Plain low opacity replaces it.
+- **Gated the header's `backdrop-blur` to desktop.** A blurred fixed bar
+  repaints on every scroll frame, which is exactly where mobile scrolling loses
+  its smoothness.
+- **Consolidated two scroll listeners into one rAF-throttled hook**
+  (`useScrollPast`). The header and WhatsApp button each ran their own handler
+  on every scroll event; state now changes only when the boolean flips.
+- **Removed three `mix-blend-screen` layers** on large decorative logo
+  watermarks — each created a stacking context for no visible gain on near-black.
+- **Goal cards no longer fetch a hover-only image.** Six images were downloaded
+  on touch devices to power an effect those devices can never trigger. The tile
+  is now part of the design at rest and simply brightens on hover.
+- **Trimmed two unused font weights** (Archivo 600 and 900 are never used).
+- Image delivery verified in the browser: nothing over-fetching, only five
+  images load above the fold, the rest lazy-load on approach.
 
 ---
 

@@ -61,16 +61,16 @@ export function WorkoutSystem() {
           <div className="grid gap-4 lg:col-span-5">
             {mid.map((item, i) => (
               <Reveal key={item.title} delay={0.1 + i * 0.05}>
-                <article className="hover-lift hover-zoom group flex h-full items-stretch gap-4 overflow-hidden rounded-sm border border-bone-line bg-bone hover:border-ink/25 sm:gap-5">
+                <article className="hover-lift hover-zoom group flex h-full flex-col items-stretch overflow-hidden rounded-sm border border-bone-line bg-bone hover:border-ink/25 min-[420px]:flex-row min-[420px]:gap-5">
                   <Figure
                     slot={item.image}
                     ratio="1/1"
-                    className="w-[6.5rem] shrink-0 rounded-none border-r border-bone-line sm:w-[9rem]"
+                    className="w-full shrink-0 rounded-none border-b border-bone-line min-[420px]:w-[7.5rem] min-[420px]:border-b-0 min-[420px]:border-r sm:w-[9rem]"
                     sizes="(max-width: 640px) 30vw, 12vw"
                     tone="bone"
                     showNote={false}
                   />
-                  <div className="flex flex-1 flex-col justify-center py-4 pr-4 sm:py-5 sm:pr-6">
+                  <div className="flex flex-1 flex-col justify-center p-4 min-[420px]:py-4 min-[420px]:pl-0 min-[420px]:pr-4 sm:py-5 sm:pr-6">
                     <span className="index text-[0.6875rem] text-accent-ink">{item.index}</span>
                     <h3 className="display display-sm mt-2 text-ink">{item.title}</h3>
                     <p className="mt-2 max-w-[34ch] text-[0.9375rem] leading-relaxed text-ink/60">

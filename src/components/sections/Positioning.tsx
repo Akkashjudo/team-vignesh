@@ -37,7 +37,7 @@ export function Positioning() {
         <div className="lg:col-span-5">
           <RevealText>
             <div className="flex items-center gap-4 text-ink/25">
-              <span className="label whitespace-nowrap text-ink/60">The difference</span>
+              <span className="label shrink-0 text-ink/60">The difference</span>
               <RevealLine delay={0.1} />
             </div>
           </RevealText>

@@ -7,7 +7,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { Logo, LogoLockup } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
 import { EASE } from "@/components/ui/Motion";
-import { useReducedMotionSafe } from "@/lib/hooks";
+import { useReducedMotionSafe, useScrollPast } from "@/lib/hooks";
 import { primaryNav, site, telLink, waMessages, whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -16,18 +16,11 @@ const SCROLL_THRESHOLD = 90;
 
 export function Header() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useScrollPast(SCROLL_THRESHOLD);
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotionSafe();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     setOpen(false);
@@ -76,7 +69,9 @@ export function Header() {
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ease-out",
           solid
-            ? "border-b border-ink-line bg-ink/90 backdrop-blur-md"
+            // Blur is desktop-only: a blurred fixed bar repaints every scroll
+            // frame, which is exactly where mobile scrolling loses its smoothness.
+            ? "border-b border-ink-line bg-ink/95 lg:bg-ink/90 lg:backdrop-blur-md"
             : "border-b border-transparent bg-transparent",
         )}
       >

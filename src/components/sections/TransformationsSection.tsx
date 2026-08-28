@@ -153,6 +153,7 @@ function EmptyState() {
               className="h-full w-full rounded-none"
               sizes="(max-width: 1024px) 50vw, 25vw"
               tone="bone"
+              placeholder="minimal"
               showNote={false}
             />
             <span className="label absolute left-3 top-3 rounded-sm bg-bone/80 px-2 py-1 text-ink/60 backdrop-blur-sm">
@@ -166,6 +167,7 @@ function EmptyState() {
               className="h-full w-full rounded-none"
               sizes="(max-width: 1024px) 50vw, 25vw"
               tone="bone"
+              placeholder="minimal"
               showNote={false}
             />
             <span className="label absolute left-3 top-3 rounded-sm bg-accent px-2 py-1 text-white">
