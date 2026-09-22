@@ -9,7 +9,6 @@ import { Surface } from "@/components/ui/Surface";
 import { SectionLabel, SectionHeading } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Motion";
 import { services } from "@/lib/content";
-import { FOUNDER_GRADE } from "@/lib/images";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -42,7 +41,6 @@ export default function CoachingPage() {
         primary={{ label: "Book A Consultation", href: "/contact" }}
         secondary={{ label: "Apply For Online Coaching", href: "/online-coaching" }}
         image="vigneshGymWide"
-        imageClassName={FOUNDER_GRADE}
         meta={["No fixed templates", "Online & in person", "Nutrition included"]}
       />
 

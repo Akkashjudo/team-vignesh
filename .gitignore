@@ -12,3 +12,6 @@ next-env.d.ts
 
 # Local tooling
 .claude/
+
+# Local asset staging (source photos, contact sheets)
+.tmp-assets/

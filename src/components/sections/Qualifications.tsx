@@ -1,6 +1,7 @@
 import { Surface } from "@/components/ui/Surface";
 import { SectionLabel, SectionHeading } from "@/components/ui/SectionLabel";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Motion";
+import { Figure } from "@/components/ui/Figure";
 import { QualificationCard } from "@/components/cards/QualificationCard";
 import { qualifications, qualificationsHeading } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -44,6 +45,26 @@ export function Qualifications() {
             <span className="label flex-1 text-bone/55">Credential</span>
             <span className="label text-bone/55">Holder — {site.trainer}</span>
           </div>
+        </Reveal>
+
+        {/* A real certificate presentation, rather than a certificate graphic:
+            it is evidence for the claim the section is making. */}
+        <Reveal delay={0.08}>
+          <figure className="mt-4 overflow-hidden rounded-sm border border-ink-line">
+            <Figure
+              slot="qualificationAward"
+              ratio="3/2"
+              className="w-full rounded-none"
+              sizes="(max-width: 1024px) 100vw, 60vw"
+            />
+            <figcaption className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-ink-line bg-ink px-4 py-3">
+              <span className="label text-accent-text">On record</span>
+              <span className="text-[0.875rem] leading-relaxed text-bone/65">
+                {site.trainer} receiving certification at a sports and fitness
+                education event.
+              </span>
+            </figcaption>
+          </figure>
         </Reveal>
 
         <RevealGroup

@@ -310,11 +310,27 @@ PLATE_SPLIT = {
     "nutrition-indian": (70, 200),
 }
 
+# These slots are now backed by REAL photographs (scripts/prepare-photos.py).
+# Regenerating a tile over them would silently destroy the photography, so they
+# are skipped. Remove a name here only if you want the tile back.
+REPLACED_BY_PHOTOGRAPHY = {
+    "strength-training",
+    "hypertrophy",
+    "personal-training",
+    "offline-coaching",
+    "functional-training",
+    "fundamental-movement",
+}
+
 BASE_W = 1080
 os.makedirs(OUT, exist_ok=True)
 total = 0
+skipped = []
 
 for name, (rw, rh, motif, glow_xy, glow_col, scale) in SPEC.items():
+    if name in REPLACED_BY_PHOTOGRAPHY:
+        skipped.append(name)
+        continue
     w = BASE_W
     h = int(round(BASE_W * rh / rw))
     W, H = w * SS, h * SS
@@ -340,4 +356,8 @@ for name, (rw, rh, motif, glow_xy, glow_col, scale) in SPEC.items():
     total += os.path.getsize(path)
     print(f"  {name:24s} {w}x{h}  {os.path.getsize(path)/1024:5.0f} KB")
 
-print(f"\n{len(SPEC)} tiles, {total/1024:.0f} KB total")
+print()
+print(f"{len(SPEC) - len(skipped)} tiles, {total/1024:.0f} KB total")
+if skipped:
+    print(f"skipped {len(skipped)} slot(s) backed by real photography: "
+          f"{', '.join(sorted(skipped))}")

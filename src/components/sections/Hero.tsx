@@ -6,7 +6,6 @@ import { Figure } from "@/components/ui/Figure";
 import { Button } from "@/components/ui/Button";
 import { EASE, FadeIn, HeroLines } from "@/components/ui/Motion";
 import { usePointerFine, useReducedMotionSafe } from "@/lib/hooks";
-import { HERO_GRADE } from "@/lib/images";
 import { hero, qualificationList } from "@/lib/content";
 
 /**
@@ -39,7 +38,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="noise relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-ink pt-[var(--header-h)]"
+      className="noise relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-ink pt-[var(--header-h)]"
       aria-label="TEAM VIGNESH — personal training, nutrition and performance"
     >
       {/* ---------- Layer 1: photograph ---------- */}
@@ -57,7 +56,7 @@ export function Hero() {
           <Figure
             slot="heroVignesh"
             className="absolute inset-0 h-full w-full rounded-none"
-            imageClassName={`object-cover object-[62%_center] lg:object-[68%_center] ${HERO_GRADE}`}
+            imageClassName="object-cover object-[62%_center] lg:object-[68%_center]"
             sizes="100vw"
             priority
             showNote={false}
@@ -66,8 +65,11 @@ export function Hero() {
       </m.div>
 
       {/* ---------- Layer 2: directional scrims ---------- */}
-      <div aria-hidden="true" className="absolute inset-0 -z-20 bg-gradient-to-t from-ink via-ink/74 to-ink/52" />
-      <div aria-hidden="true" className="absolute inset-0 -z-20 hidden bg-gradient-to-r from-ink via-ink/80 to-transparent lg:block" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-20 bg-gradient-to-t from-ink via-ink/75 to-ink/45 lg:via-ink/48 lg:to-ink/26"
+      />
+      <div aria-hidden="true" className="absolute inset-0 -z-20 hidden bg-gradient-to-r from-ink via-ink/88 to-transparent lg:block" />
       {/* Top band so the header and logo always read against the photograph. */}
       <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-20 h-44 bg-gradient-to-b from-ink to-transparent" />
 

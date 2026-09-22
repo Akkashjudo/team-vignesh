@@ -25,6 +25,16 @@
 export type Ratio = "1/1" | "3/4" | "4/5" | "4/3" | "3/2" | "16/9" | "21/9" | "9/16";
 
 /**
+ * One shared photographic grade. Every photograph on the site is monochrome,
+ * so founder portraits, coaching shots taken on a phone under purple gym
+ * lighting, and the award photo all read as a single body of work — and none
+ * of their colour casts compete with the brand red.
+ * Change these two lines to restyle all photography at once.
+ */
+export const FOUNDER_GRADE = "grayscale contrast-[1.06] brightness-[0.98]";
+export const HERO_GRADE = "grayscale-[0.9] contrast-[1.08] brightness-[0.75]";
+
+/**
  * The single art direction every SUPPORT image must share. Prepend this to any
  * slot's `prompt` when generating, so the whole site looks like one shoot.
  */
@@ -57,10 +67,33 @@ export interface ImageSlot {
    * false when you swap in real photography, and write a real alt.
    */
   decorative?: boolean;
+  /**
+   * Photographic grade, applied by <Figure> to this slot everywhere it is
+   * used. One source of truth: the site's photography is monochrome, so a
+   * colour phone snapshot from the gym sits beside the founder frames without
+   * its purple lighting fighting the brand red.
+   */
+  grade?: string;
 }
 
-function founder(id: string, file: string, alt: string, ratio: Ratio, note: string): ImageSlot {
-  return { id, file, src: file, alt, ratio, note, kind: "founder" };
+function founder(
+  id: string, file: string, alt: string, ratio: Ratio, note: string,
+  grade: string = FOUNDER_GRADE,
+): ImageSlot {
+  return { id, file, src: file, alt, ratio, note, kind: "founder", grade };
+}
+
+/**
+ * A real photograph that is not of the founder alone — coaching in action at
+ * the studio, or evidence of a credential. Unlike a generated tile these carry
+ * descriptive alt text, because they show something a screen-reader user would
+ * otherwise miss.
+ */
+function photo(id: string, file: string, alt: string, ratio: Ratio, note: string): ImageSlot {
+  return {
+    id, file, src: file, alt, ratio, note,
+    kind: "support", decorative: false, grade: FOUNDER_GRADE,
+  };
 }
 
 function client(id: string, file: string, alt: string, ratio: Ratio, note: string): ImageSlot {
@@ -91,20 +124,21 @@ export const images = {
     "Vigneshwaran training on the gym floor",
     "3/4",
     "Hero background. Full-body training frame in the gym, used behind the headline scrim.",
+    HERO_GRADE,
   ),
   vigneshPortrait: founder(
     "vigneshPortrait",
     "/images/vignesh-portrait.jpg",
-    "Vigneshwaran, founder and coach at TEAM VIGNESH",
+    "Vigneshwaran, founder and coach at TEAM VIGNESH, at the studio",
     "3/4",
-    "Primary founder portrait. The face of the brand.",
+    "Primary founder portrait — studio shot, pre-cropped so the face keeps headroom at both 3/4 and 4/5.",
   ),
   vigneshMotion: founder(
     "vigneshMotion",
     "/images/vignesh-motion.jpg",
-    "Vigneshwaran between sets",
+    "Vigneshwaran supporting a client through a leg press set",
     "4/5",
-    "Secondary founder frame. Offset accent in the founder composition.",
+    "Secondary founder frame — coaching in action, which positions him better than a physique shot.",
   ),
   vigneshGymWide: founder(
     "vigneshGymWide",
@@ -124,25 +158,19 @@ export const images = {
   /* ======================================================================
      SUPPORT — training. AI-generated or licensed, one shared art direction.
      ====================================================================== */
-  strengthTraining: support(
+  strengthTraining: photo(
     "strengthTraining",
     "/images/strength-training.jpg",
-    "Barbell strength training",
+    "A client pressing a barbell overhead during a coached session",
     "4/5",
-    "Controlled compound lift in a premium training environment.",
-    "A lean, athletic South Asian man mid-set on a barbell back squat in a dark charcoal gym, " +
-      "hard side light raking across the shoulders, chalk dust in the air, loaded plates, " +
-      "shot from a low three-quarter angle, focused expression, not posing.",
+    "Real: coached overhead press. Pre-cropped to 4/5.",
   ),
-  hypertrophy: support(
+  hypertrophy: photo(
     "hypertrophy",
     "/images/hypertrophy.jpg",
-    "Resistance training for muscle development",
+    "Vigneshwaran coaching a client through a seated barbell press",
     "4/5",
-    "Clean resistance training focused on the movement, not on posing.",
-    "Close three-quarter frame of a South Asian athlete performing a controlled dumbbell row, " +
-      "tension visible through the back and forearm, matte black equipment, single soft key light " +
-      "from the left, deep shadow behind, no eye contact with camera.",
+    "Real: resistance work with hands-on coaching. Pre-cropped to 4/5.",
   ),
   conditioning: support(
     "conditioning",
@@ -154,36 +182,28 @@ export const images = {
       "blur in the legs, sweat on the forearms, wide industrial gym behind falling into shadow, " +
       "cool neutral grade with one small red accent light far in the background.",
   ),
-  functional: support(
+  functional: photo(
     "functional",
     "/images/functional-training.jpg",
-    "Functional movement training",
+    "Vigneshwaran cueing a client’s position during a standing lift",
     "4/3",
-    "Dynamic but realistic functional work — carry, kettlebell or bodyweight pattern.",
-    "A South Asian athlete mid-stride in a heavy farmer's carry with two kettlebells, level camera, " +
-      "dark gym, controlled overhead lighting, grounded and realistic, no jumping or acrobatics.",
+    "Real: coaching cue mid-set on the training floor. Pre-cropped to 4/3.",
   ),
-  fundamentals: support(
+  fundamentals: photo(
     "fundamentals",
     "/images/fundamental-movement.jpg",
-    "Coaching fundamental movement patterns",
+    "Vigneshwaran correcting a client’s technique on a barbell movement",
     "4/3",
-    "Teaching a hinge or squat pattern with a dowel or light load.",
-    "A fitness coach guiding a client through a hip hinge with a wooden dowel along the spine, " +
-      "coach's hand indicating position, both South Asian, dark gym, calm instructional moment, " +
-      "soft directional light, documentary feel.",
+    "Real: technique correction. Pre-cropped to 4/3.",
   ),
 
   /* ------------------------- SUPPORT — coaching -------------------------- */
-  personalTraining: support(
+  personalTraining: photo(
     "personalTraining",
     "/images/personal-training.jpg",
-    "One-to-one personal training session",
+    "Vigneshwaran spotting a client through a dumbbell shoulder press",
     "4/5",
-    "Coach and client working a set together.",
-    "A personal trainer spotting a client through the last rep of a dumbbell press on an incline " +
-      "bench, both South Asian, dark charcoal gym, hard side light, genuine effort on the client's " +
-      "face, coach focused on the bar path.",
+    "Real: one-to-one coaching, the clearest shot of the service. Pre-cropped to 4/5.",
   ),
   onlineCoaching: support(
     "onlineCoaching",
@@ -195,15 +215,21 @@ export const images = {
       "training in the background, screen content abstract and unreadable with no text or UI, " +
       "shallow but natural depth of field, editorial and understated.",
   ),
-  offlineCoaching: support(
+  offlineCoaching: photo(
     "offlineCoaching",
     "/images/offline-coaching.jpg",
-    "In-person coaching on the gym floor",
+    "Vigneshwaran on the gym floor with a client after a session",
     "3/2",
-    "Coach beside a client between sets, talking through the plan.",
-    "A coach and client standing together between sets on a dark gym floor, mid-conversation, " +
-      "coach gesturing toward a rack, both South Asian, warm practical lighting, natural posture, " +
-      "documentary rather than posed.",
+    "Real: coach and client rapport in the studio. Pre-cropped to 3/2.",
+  ),
+
+  /* ------------------------- Credential evidence ------------------------- */
+  qualificationAward: photo(
+    "qualificationAward",
+    "/images/qualification-award.jpg",
+    "Vigneshwaran receiving a certificate at a sports and fitness education event",
+    "3/2",
+    "Real: certificate presentation. Supports the qualifications section rather than a certificate graphic.",
   ),
 
   /* ------------------------- SUPPORT — nutrition ------------------------- */
@@ -330,11 +356,3 @@ export const ratioClass: Record<Ratio, string> = {
   "21/9": "aspect-[21/9]",
   "9/16": "aspect-[9/16]",
 };
-
-/**
- * One shared photographic grade, so the founder photography (two frames are
- * already monochrome) and any later imagery read as a single body of work.
- * Change here to restyle every founder frame at once.
- */
-export const FOUNDER_GRADE = "grayscale contrast-[1.06] brightness-[0.98]";
-export const HERO_GRADE = "grayscale-[0.92] contrast-[1.1] brightness-[0.82]";

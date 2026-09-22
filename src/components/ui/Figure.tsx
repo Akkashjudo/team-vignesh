@@ -70,7 +70,8 @@ export function Figure({
           sizes={sizes}
           priority={priority}
           loading={priority ? undefined : "lazy"}
-          className={cn("object-cover", imageClassName)}
+          /* meta.grade first so a caller can still override it per placement. */
+          className={cn("object-cover", meta.grade, imageClassName)}
         />
       ) : (
         <Placeholder id={meta.id} note={meta.note} tone={tone} showNote={showNote} variant={placeholder} />

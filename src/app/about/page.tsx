@@ -9,7 +9,6 @@ import { SectionLabel, SectionHeading } from "@/components/ui/SectionLabel";
 import { Reveal, RevealMask } from "@/components/ui/Motion";
 import { Figure } from "@/components/ui/Figure";
 import { about, services } from "@/lib/content";
-import { FOUNDER_GRADE } from "@/lib/images";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -28,7 +27,6 @@ export default function AboutPage() {
         lines={["Coaching built", "around the person.", "Not just the programme."]}
         supporting={about.intro}
         image="vigneshPortrait"
-        imageClassName={FOUNDER_GRADE}
         primary={{ label: "Train With Vignesh", href: "/contact" }}
         secondary={{ label: "See Coaching", href: "/coaching" }}
         meta={["Personal training", "Nutrition", "Recovery", "Online coaching"]}

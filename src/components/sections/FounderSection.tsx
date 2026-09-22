@@ -15,7 +15,6 @@ import {
   RevealLine,
 } from "@/components/ui/Motion";
 import { useReducedMotionSafe, usePointerFine } from "@/lib/hooks";
-import { FOUNDER_GRADE } from "@/lib/images";
 import { founder, qualificationList } from "@/lib/content";
 import { site } from "@/lib/site";
 
@@ -160,7 +159,6 @@ export function FounderSection() {
                   slot="vigneshGymWide"
                   ratio="16/9"
                   className="w-full rounded-none"
-                  imageClassName={FOUNDER_GRADE}
                   sizes="34vw"
                   showNote={false}
                 />
@@ -172,7 +170,6 @@ export function FounderSection() {
                   slot="vigneshPortrait"
                   ratio="3/4"
                   className="w-full rounded-none"
-                  imageClassName={FOUNDER_GRADE}
                   sizes="36vw"
                   showNote={false}
                 />
@@ -187,7 +184,6 @@ export function FounderSection() {
                   slot="vigneshMotion"
                   ratio="4/5"
                   className="w-full rounded-none"
-                  imageClassName={FOUNDER_GRADE}
                   sizes="22vw"
                   showNote={false}
                 />
@@ -214,7 +210,6 @@ export function FounderSection() {
                   slot="vigneshPortrait"
                   ratio="3/4"
                   className="w-full rounded-none"
-                  imageClassName={FOUNDER_GRADE}
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   showNote={false}
                 />
@@ -226,8 +221,7 @@ export function FounderSection() {
                     slot="vigneshGymWide"
                     ratio="4/3"
                     className="w-full rounded-none"
-                    imageClassName={FOUNDER_GRADE}
-                    sizes="60vw"
+                      sizes="60vw"
                     showNote={false}
                   />
                 </RevealImage>
@@ -236,8 +230,7 @@ export function FounderSection() {
                     slot="vigneshMotion"
                     ratio="4/3"
                     className="h-full w-full rounded-none"
-                    imageClassName={FOUNDER_GRADE}
-                    sizes="40vw"
+                      sizes="40vw"
                     showNote={false}
                   />
                 </RevealImage>

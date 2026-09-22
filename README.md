@@ -60,67 +60,54 @@ header and logo always read against the photograph.
 
 ## Founder photography
 
-The three supplied photographs of Vigneshwaran are the only images of him on
-the site. No AI-generated or stock person is ever substituted.
+Real photographs of Vigneshwaran are the only images of him on the site. No
+AI-generated or stock person is ever substituted.
 
 | Slot | File | Role |
 |---|---|---|
+| `vigneshPortrait` | `vignesh-portrait.jpg` | **Primary founder portrait** — the studio shot |
 | `heroVignesh` | `vignesh-gym.jpg` | Hero background — the training environment |
-| `vigneshPortrait` | `vignesh-portrait.jpg` | Primary founder portrait |
-| `vigneshMotion` | `vignesh-motion.jpg` | Secondary accent frame |
-| `vigneshGymWide` | `vignesh-gym-wide.jpg` | Wide training band (a genuinely different crop of the gym shot, so it never reads as a repeat of the hero) |
+| `vigneshMotion` | `vignesh-motion.jpg` | Founder accent — assisting a client through a set |
+| `vigneshGymWide` | `vignesh-gym-wide.jpg` | Wide training band (a different crop of the gym shot) |
 | `vigneshSquare` | `vignesh-portrait-square.jpg` | Tight crop for compact placements |
 
-Two of the three originals are monochrome and one is colour under purple gym
-lighting. To make them read as a single shoot they share one grade, defined
-once in `src/lib/images.ts`:
+---
+
+## Coaching photography
+
+Real photographs of Vignesh coaching at the studio now back the slots that
+matter most, replacing the generated tiles that used to sit there:
+
+| Slot | Shows |
+|---|---|
+| `personalTraining` | Spotting a client through a dumbbell shoulder press |
+| `hypertrophy` | Coaching a seated barbell press |
+| `strengthTraining` | A client pressing a barbell overhead |
+| `fundamentals` | Correcting technique on a barbell movement |
+| `functional` | Cueing position mid-set on the training floor |
+| `offlineCoaching` | Coach and client on the gym floor |
+| `qualificationAward` | Receiving certification at a sports-education event |
+
+`scripts/prepare-photos.py` crops each source photo to its slot's ratio. Every
+source is portrait (0.56–0.98) while several slots are landscape, so letting
+CSS `object-cover` do the cropping would cut heads off. The script picks the
+crop window per photo instead, and the file ships already the right shape.
+
+```bash
+python scripts/prepare-photos.py
+```
+
+All photography is monochrome, set once in `src/lib/images.ts`:
 
 ```ts
 export const FOUNDER_GRADE = "grayscale contrast-[1.06] brightness-[0.98]";
-export const HERO_GRADE = "grayscale-[0.92] contrast-[1.1] brightness-[0.82]";
+export const HERO_GRADE = "grayscale-[0.9] contrast-[1.08] brightness-[0.75]";
 ```
 
-Change those two lines to restyle every founder frame at once.
-
----
-
-## Supporting imagery
-
-Every image slot on the site is filled — there are no blank containers.
-
-**These are generated category tiles, not photographs.** No image-generation
-tool was available, so rather than leave 21 cards empty they are filled with
-designed artwork produced by `scripts/generate-thumbnails.py`: a dark brand
-ground, a soft light pool, a geometric motif that reads for the category, fine
-grain and a vignette. They share one art direction, so a grid of them reads as
-one system.
-
-```bash
-python scripts/generate-thumbnails.py
-```
-
-**To replace one with a photograph**, drop a file into `public/images/` with
-the same name — it takes over automatically. Then set that slot's
-`decorative: false` in `images.ts` and write a real `alt`.
-
-Each support slot still carries a written `prompt`, and `ART_DIRECTION` at the
-top of `images.ts` is the shared style preamble, so photography can be
-generated or briefed consistently:
-
-```
-<ART_DIRECTION>  +  <the slot's prompt>
-```
-
-Generated tiles take an **empty alt**: they are illustrative and the card
-heading beside them already carries the meaning, so a description would only
-add screen-reader noise — and would wrongly imply a photograph exists.
-
-**The one exception:** the six client before/after slots stay empty on purpose.
-Fabricating a transformation result is not something the site will do. They
-only ever appear inside the "reserved for real client results" block, rendered
-as deliberate empty frames.
-
----
+`<Figure>` applies a slot's grade wherever it is used, so a colour phone
+snapshot taken under purple gym lighting sits beside the founder frames
+without its colour cast competing with the brand red. Change those two lines
+to restyle every photograph at once.
 
 ## Page order
 

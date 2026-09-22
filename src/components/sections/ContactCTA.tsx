@@ -38,11 +38,13 @@ export function ContactCTA({
       </div>
 
       <div className="shell relative section">
-        <div className="max-w-[24ch]">
+        <div>
           <Reveal>
             <h2
               id="cta-heading"
-              className="display text-[clamp(2rem,6.4vw,5.5rem)] text-bone"
+              /* max-w in ch sits HERE, on the display font, not on a wrapper
+                 using the 16px body font where 24ch would be ~192px. */
+              className="display max-w-[15ch] text-[clamp(2rem,6.4vw,5.5rem)] text-bone"
             >
               {heading.map((line, i) => (
                 <span key={line} className={i > 0 ? "block text-bone/55" : "block"}>

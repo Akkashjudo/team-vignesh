@@ -14,14 +14,15 @@ export function GoalSelector() {
     <Surface tone="ink" grid className="section" aria-labelledby="goals-heading">
       <div className="shell">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-[24ch]">
+          <div className="lg:max-w-[42rem]">
             <Reveal>
               <SectionLabel index="03" className="text-bone/60">
                 Choose your direction
               </SectionLabel>
             </Reveal>
             <Reveal delay={0.05}>
-              <SectionHeading id="goals-heading" className="mt-6 text-bone">
+              {/* ch measure on the heading itself — see ContactCTA. */}
+              <SectionHeading id="goals-heading" className="mt-6 max-w-[13ch] text-bone">
                 {goalsHeading}
               </SectionHeading>
             </Reveal>
