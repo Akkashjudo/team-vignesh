@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { images, ratioClass, ratioClassSm, type ImageKey } from "@/lib/images";
 import { blurDataUrls } from "@/lib/blur";
+import { DetailPanel } from "@/components/ui/DetailPanel";
 import { cn } from "@/lib/utils";
 
 /**
@@ -96,7 +97,16 @@ export function Figure({
           /* meta.grade first so a caller can still override it per placement. */
           className={cn("object-cover", meta.grade, imageClassName)}
         />
+      ) : meta.kind === "support" ? (
+        /* A SUPPORT slot with no photograph is a deliberate state, not a gap
+           waiting to be filled at build time: there is no honest picture for
+           it and a borrowed one would misrepresent the section. The panel
+           occupies the identical box, so dropping a file into the slot later
+           changes nothing but the content of the frame. */
+        <DetailPanel facts={meta.panel} label={meta.alt} />
       ) : (
+        /* CLIENT slots stay as the art-directed placeholder: those are waiting
+           on real, consented photography and the note says what to shoot. */
         <Placeholder id={meta.id} note={meta.note} tone={tone} showNote={showNote} variant={placeholder} />
       )}
 

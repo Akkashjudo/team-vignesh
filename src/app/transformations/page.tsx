@@ -48,6 +48,7 @@ export default function TransformationsPage() {
         index="01"
         lines={["The work", "shows."]}
         supporting={`Transformation at ${site.brand} is a measured process — a baseline on day one, a review at day 30, a fuller review at day 60, and honest adjustments in between.`}
+        image="transformationsHero"
         primary={{ label: "Start Your Transformation", href: "/contact" }}
         secondary={{ label: "See The Method", href: "/coaching" }}
         meta={["Baseline on day 01", "Reviewed at day 30", "Reviewed at day 60"]}

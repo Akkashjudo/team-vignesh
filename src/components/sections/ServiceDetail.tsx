@@ -2,6 +2,7 @@ import { Surface } from "@/components/ui/Surface";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal, RevealMask } from "@/components/ui/Motion";
 import { Figure } from "@/components/ui/Figure";
+import { images } from "@/lib/images";
 import { Button } from "@/components/ui/Button";
 import type { Service } from "@/lib/content";
 import { whatsappLink } from "@/lib/site";
@@ -29,6 +30,10 @@ export function ServiceDetail({
   tone?: "ink" | "ink-elevated" | "bone";
 }) {
   const light = tone === "bone";
+  /* A photograph earns the tall 4/5 frame. A detail panel does not: at 4/5 it
+     is mostly empty field, and this section already carries the same facts in
+     the grid beside it. Give it a shorter frame instead. */
+  const hasPhoto = Boolean(images[service.image].src);
 
   return (
     <Surface
@@ -44,7 +49,7 @@ export function ServiceDetail({
             <RevealMask className="rounded-sm">
               <Figure
                 slot={service.image}
-                ratio="4/5"
+                ratio={hasPhoto ? "4/5" : "3/2"}
                 className={cn(
                   "w-full rounded-none border",
                   light ? "border-bone-line" : "border-ink-line",

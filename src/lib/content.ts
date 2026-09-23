@@ -740,7 +740,7 @@ export const recoveryServices = [
   { index: "01", title: "Sports Massage", body: "Soft tissue work for general muscle tightness and the accumulated stress of regular training.", image: "recovery" as ImageKey },
   { index: "02", title: "Deep Tissue Therapy", body: "Slower, deeper work on specific areas that feel restricted or persistently tight.", image: "recoveryDeepTissue" as ImageKey },
   { index: "03", title: "Training Recovery", body: "Sessions scheduled around your training week to support consistency and readiness.", image: "recoveryMobility" as ImageKey },
-  { index: "04", title: "Mobility Support", body: "Practical mobility work and guidance you can continue between sessions.", image: "functional" as ImageKey },
+  { index: "04", title: "Mobility Support", body: "Practical mobility work and guidance you can continue between sessions.", image: "recoveryGuidance" as ImageKey },
 ];
 
 export const recoveryNote =

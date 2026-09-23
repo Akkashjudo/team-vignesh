@@ -25,7 +25,7 @@ export default function OnlineCoachingPage() {
         index="01"
         lines={["Structured coaching.", "Wherever", "you train."]}
         supporting={onlinePage.intro}
-        image="onlineCoaching"
+        image="onlineCoachingHero"
         placeholder="minimal"
         primary={{ label: "Apply For Online Coaching", href: "/contact" }}
         secondary={{ label: "Compare Services", href: "/coaching" }}

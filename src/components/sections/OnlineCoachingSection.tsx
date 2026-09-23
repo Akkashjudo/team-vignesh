@@ -15,7 +15,7 @@ export function OnlineCoachingSection() {
     <Surface tone="ink" className="relative overflow-hidden" aria-labelledby="online-heading">
       {/* Full-bleed background photograph, heavily scrimmed. */}
       <Figure
-        slot="onlineCoaching"
+        slot="vigneshGymWide"
         className="absolute inset-0 h-full w-full rounded-none"
         imageClassName="object-cover object-center"
         sizes="100vw"

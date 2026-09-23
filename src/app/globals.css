@@ -142,6 +142,104 @@ html {
   }
 }
 
+/* ==========================================================================
+   DETAIL PANEL
+   --------------------------------------------------------------------------
+   Fills an image frame that has no honest photograph behind it. The same panel
+   renders at 116px in a phone thumbnail and at ~500px in a page hero, and a
+   viewport breakpoint cannot tell those apart — in a card the frame is narrow
+   on a wide screen just as often as the reverse. So it sizes against its own
+   box with a container query, which is exactly what this needs and costs no
+   dependency.
+   ========================================================================== */
+.panel-frame {
+  container-type: inline-size;
+}
+
+/* Narrower than this the frame is a thumbnail: the tick alone reads, and any
+   text would be two clipped words. */
+.panel-facts {
+  display: none;
+}
+
+/* Thumbnail scale. Two lines at most: a phone card's thumb is ~115px wide and
+   a third line of wrapped mono would turn the frame into a block of noise. */
+@container (min-width: 96px) {
+  .panel-facts {
+    display: block;
+    padding: 0.5rem;
+  }
+  .panel-facts .label {
+    font-size: 0.5rem;
+    letter-spacing: 0.06em;
+  }
+  .panel-facts > li + li {
+    margin-top: 0.25rem;
+  }
+  .panel-facts > li:nth-child(n + 3) {
+    display: none;
+  }
+  /* The leading dash costs a third of the line at this width. */
+  .panel-facts > li > span {
+    display: none;
+  }
+}
+
+@container (min-width: 132px) {
+  .panel-facts {
+    padding: 0.625rem;
+  }
+}
+
+.panel-tick {
+  left: 0.75rem;
+  top: 0.75rem;
+}
+
+@container (min-width: 200px) {
+  .panel-facts {
+    padding: 1rem;
+  }
+  .panel-facts > li:nth-child(n + 3) {
+    display: flex;
+  }
+  .panel-facts > li > span {
+    display: block;
+  }
+  .panel-facts > li + li {
+    margin-top: 0.375rem;
+  }
+  .panel-facts .label {
+    font-size: 0.5625rem;
+    letter-spacing: 0.18em;
+  }
+}
+
+@container (min-width: 300px) {
+  .panel-tick {
+    left: 1.25rem;
+    top: 1.25rem;
+  }
+  .panel-facts {
+    padding: 1.25rem;
+  }
+  .panel-facts .label {
+    font-size: 0.625rem;
+  }
+}
+
+@container (min-width: 420px) {
+  .panel-facts {
+    padding: 1.75rem;
+  }
+  .panel-facts .label {
+    font-size: 0.6875rem;
+  }
+  .panel-facts > li + li {
+    margin-top: 0.5rem;
+  }
+}
+
 body {
   background-color: var(--ink);
   color: var(--bone);
@@ -207,7 +305,7 @@ body {
   .label {
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 0.6875rem;
-    letter-spacing: theme("letterSpacing.label");
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     font-weight: 500;
   }

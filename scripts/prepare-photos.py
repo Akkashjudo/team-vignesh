@@ -61,6 +61,51 @@ def build(source, out_name, ratio, top_frac, max_w=1200, q=84, zoom=1.0, x_frac=
           f"  {os.path.getsize(path)/1024:5.0f}KB")
 
 
+def pad_to(img, ratio, side="right", blur=60):
+    """
+    Widen a frame to `ratio` by extending its own edge rather than cropping.
+
+    Used for the phone portrait: it is nearly square, and cropping it to a card's
+    3/2 would cut either the face or the phone — the two things that make it the
+    right picture for online coaching. The background is already near-black, so
+    resizing the edge strip and blurring it hard extends the room invisibly.
+    Only the empty side is extended; the side where the subject meets the frame
+    is left alone, so no cut edge ever ends up floating inside the picture.
+    """
+    from PIL import ImageFilter
+
+    w, h = img.size
+    target_w = int(round(h * ratio))
+    if target_w <= w:
+        return img
+
+    pad = target_w - w
+    strip_w = max(8, w // 8)
+    strip = img.crop((w - strip_w, 0, w, h)) if side == "right" else img.crop((0, 0, strip_w, h))
+    strip = strip.resize((pad, h), Image.LANCZOS).filter(ImageFilter.GaussianBlur(blur))
+
+    out = Image.new("RGB", (target_w, h))
+    if side == "right":
+        out.paste(strip, (w, 0))
+        out.paste(img, (0, 0))
+    else:
+        out.paste(strip, (0, 0))
+        out.paste(img, (pad, 0))
+    return out
+
+
+def build_padded(source, out_name, ratio, side="right", max_w=1400, q=84,
+                 pad_ratio=None, top_frac=0.5):
+    img = ImageOps.exif_transpose(Image.open(source)).convert("RGB")
+    img = pad_to(img, pad_ratio or ratio, side)
+    img = crop_to(img, ratio, top_frac)
+    if img.width > max_w:
+        img = img.resize((max_w, int(round(max_w * img.height / img.width))), Image.LANCZOS)
+    path = f"{OUT}/{out_name}"
+    img.save(path, "JPEG", quality=q, optimize=True, progressive=True)
+    print(f"  {out_name:34s} {img.width}x{img.height}  ratio {img.width/img.height:.3f}"
+          f"  {os.path.getsize(path)/1024:5.0f}KB  (edge-extended)")
+
 R_4_5, R_3_4, R_4_3, R_3_2 = 4 / 5, 3 / 4, 4 / 3, 3 / 2
 
 # n -> (output name, ratio, top_frac, source override, zoom, x_frac)
@@ -85,3 +130,26 @@ print(f"{len(PLAN)} photographs\n")
 for n, out_name, ratio, top_frac, override, zoom, x_frac in PLAN:
     src = override if override else os.path.join(SRC, FILES[n - 1])
     build(src, out_name, ratio, top_frac, zoom=zoom, x_frac=x_frac)
+
+
+# ---------------------------------------------------------------------------
+# Second pass: pictures that had to wait for a slot that actually suits them.
+# ---------------------------------------------------------------------------
+PHONE = f"{OUT}/vignesh-portrait-square.jpg"
+
+PLAN2 = [
+    # Online coaching. The phone in his hand IS the subject, so this replaces a
+    # generated tile that showed nothing at all.
+    (12, "transformations-hero.jpg", R_4_5, 0.10, 1.00, 0.50),  # coach and client, real result
+]
+
+print(f"\n{len(PLAN2) + 2} further photographs\n")
+for n, out_name, ratio, top_frac, zoom, x_frac in PLAN2:
+    build(os.path.join(SRC, FILES[n - 1]), out_name, ratio, top_frac, zoom=zoom, x_frac=x_frac)
+
+# 3/2 for the service card (its mobile crop is 16/9, which this still survives)
+# and 4/5 for the page hero, from the one frame where he is holding a phone.
+# Extend to 1.32 first, then crop to 3/2: a straight pad to 3/2 left him pinned
+# to one edge with half a frame of empty black beside him.
+build_padded(PHONE, "online-coaching.jpg", R_3_2, side="right", pad_ratio=1.32, top_frac=0.04)
+build(PHONE, "online-coaching-hero.jpg", R_4_5, 0.02)

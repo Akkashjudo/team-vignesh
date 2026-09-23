@@ -74,6 +74,21 @@ export interface ImageSlot {
    * its purple lighting fighting the brand red.
    */
   grade?: string;
+  /**
+   * Shown INSTEAD of a photograph while `src` is null.
+   *
+   * Several topics on this site have no photograph and cannot honestly borrow
+   * one: a coaching shot on a "Sports Massage" card is a mismatch, and the
+   * generated abstract tiles that used to fill these slots read as broken
+   * images. So the frame carries the topic's own specifics instead — real
+   * information, set in the label type, in exactly the same box the photograph
+   * will occupy. Drop a file into `src` and the panel disappears with no
+   * layout change.
+   *
+   * Omit it to get the plain hairline field, which is what a slot used only as
+   * scrimmed background texture wants.
+   */
+  panel?: string[];
 }
 
 function founder(
@@ -94,6 +109,19 @@ function photo(id: string, file: string, alt: string, ratio: Ratio, note: string
     id, file, src: file, alt, ratio, note,
     kind: "support", decorative: false, grade: FOUNDER_GRADE,
   };
+}
+
+/**
+ * A SUPPORT slot with no photograph yet. Unlike `support()` this ships EMPTY on
+ * purpose — `<Figure>` renders the slot's `panel` facts in the image's box
+ * rather than a stand-in picture. `prompt` and `note` stay, so the slot is
+ * ready the moment real photography exists.
+ */
+function pending(
+  id: string, file: string, alt: string, ratio: Ratio, note: string,
+  prompt: string, panel?: string[],
+): ImageSlot {
+  return { id, file, src: null, alt, ratio, note, prompt, kind: "support", panel };
 }
 
 function client(id: string, file: string, alt: string, ratio: Ratio, note: string): ImageSlot {
@@ -172,7 +200,7 @@ export const images = {
     "4/5",
     "Real: resistance work with hands-on coaching. Pre-cropped to 4/5.",
   ),
-  conditioning: support(
+  conditioning: pending(
     "conditioning",
     "/images/conditioning.jpg",
     "Cardiovascular conditioning work",
@@ -181,6 +209,7 @@ export const images = {
     "A South Asian athlete driving a weighted sled across dark rubber gym flooring, slight motion " +
       "blur in the legs, sweat on the forearms, wide industrial gym behind falling into shadow, " +
       "cool neutral grade with one small red accent light far in the background.",
+    ["Intervals", "Work capacity", "Endurance"],
   ),
   functional: photo(
     "functional",
@@ -205,15 +234,28 @@ export const images = {
     "4/5",
     "Real: one-to-one coaching, the clearest shot of the service. Pre-cropped to 4/5.",
   ),
-  onlineCoaching: support(
+  onlineCoaching: photo(
     "onlineCoaching",
     "/images/online-coaching.jpg",
-    "Online coaching check-in",
+    "Vigneshwaran checking a training plan on his phone at the gym",
     "3/2",
-    "A phone with a training plan in the foreground, gym behind. No stock laptops.",
-    "A hand holding a phone in a dark gym, screen glow lighting the fingers, a blurred athlete " +
-      "training in the background, screen content abstract and unreadable with no text or UI, " +
-      "shallow but natural depth of field, editorial and understated.",
+    "Real: the one frame where he is holding a phone — which is what online coaching is. " +
+      "Edge-extended to 3/2 so the card's 16/9 mobile crop still keeps his face and the phone.",
+  ),
+  onlineCoachingHero: photo(
+    "onlineCoachingHero",
+    "/images/online-coaching-hero.jpg",
+    "Vigneshwaran with his phone, reviewing training at the gym",
+    "4/5",
+    "Real: the same frame cropped tall for the /online-coaching page hero.",
+  ),
+  transformationsHero: photo(
+    "transformationsHero",
+    "/images/transformations-hero.jpg",
+    "Vigneshwaran with a client on the training floor",
+    "4/5",
+    "Real: coach and client together. An honest lead image for the transformations page — " +
+      "no fabricated before/after is implied by it.",
   ),
   offlineCoaching: photo(
     "offlineCoaching",
@@ -233,7 +275,7 @@ export const images = {
   ),
 
   /* ------------------------- SUPPORT — nutrition ------------------------- */
-  nutrition: support(
+  nutrition: pending(
     "nutrition",
     "/images/nutrition.jpg",
     "A balanced high-protein meal prepared for training days",
@@ -242,8 +284,9 @@ export const images = {
     "An overhead editorial photograph of a balanced Indian meal on a dark ceramic plate — grilled " +
       "chicken, dal, brown rice, sautéed vegetables and curd — on a charcoal stone surface, " +
       "single soft window light from the left, natural food texture, no garnish styling tricks.",
+      ["Daily protein", "Meal timing", "Indian food options", "No restriction"],
   ),
-  nutritionProtein: support(
+  nutritionProtein: pending(
     "nutritionProtein",
     "/images/nutrition-protein.jpg",
     "High-protein breakfast options",
@@ -252,8 +295,9 @@ export const images = {
     "A three-quarter angle photograph of a high-protein Indian breakfast — boiled eggs, paneer " +
       "cubes, a bowl of curd and sprouted moong — on dark stoneware, soft morning window light, " +
       "matte surfaces, restrained composition.",
+      ["Eggs", "Curd & paneer", "Dal", "Chicken & fish"],
   ),
-  nutritionPre: support(
+  nutritionPre: pending(
     "nutritionPre",
     "/images/nutrition-pre-workout.jpg",
     "A light pre-workout meal",
@@ -261,8 +305,9 @@ export const images = {
     "Simple carbohydrate plus protein. Light and uncluttered.",
     "A small simple pre-training plate — banana, a slice of brown toast with peanut butter and a " +
       "black coffee — on a dark surface, minimal props, soft side light, generous negative space.",
+      ["Carbohydrate led", "Light enough to move", "Timed before training"],
   ),
-  nutritionPost: support(
+  nutritionPost: pending(
     "nutritionPost",
     "/images/nutrition-post-workout.jpg",
     "A post-workout recovery meal",
@@ -271,8 +316,9 @@ export const images = {
     "A full post-training plate — grilled fish, steamed rice and green vegetables — on dark " +
       "stoneware, warm directional light from the upper left, steam just visible, honest home " +
       "cooking rather than restaurant plating.",
+      ["Protein", "Carbohydrate", "Recovery focused"],
   ),
-  nutritionIndian: support(
+  nutritionIndian: pending(
     "nutritionIndian",
     "/images/nutrition-indian.jpg",
     "Everyday Indian food portioned for training goals",
@@ -280,10 +326,11 @@ export const images = {
     "Familiar Indian dishes, portioned sensibly. The trust-builder image.",
     "An everyday Indian thali portioned for a training goal — two rotis, dal, a vegetable sabzi, " +
       "curd and salad — on a dark metal plate, overhead, soft even light, familiar and unstyled.",
+      ["Everyday Indian food", "Portioned", "Protein built in"],
   ),
 
   /* ------------------------- SUPPORT — recovery -------------------------- */
-  recovery: support(
+  recovery: pending(
     "recovery",
     "/images/recovery.jpg",
     "A sports massage and recovery session",
@@ -292,8 +339,9 @@ export const images = {
     "A sports massage therapist working on an athlete's calf on a treatment table, therapist's " +
       "hands and forearms in focus, clean dark treatment room, single soft overhead light, towel " +
       "draped respectfully, clinical and calm, no faces required.",
+      ["Soft tissue work", "General tightness", "Training stress"],
   ),
-  recoveryDeepTissue: support(
+  recoveryDeepTissue: pending(
     "recoveryDeepTissue",
     "/images/recovery-deep-tissue.jpg",
     "Deep tissue therapy on the shoulder",
@@ -302,8 +350,9 @@ export const images = {
     "A close respectful crop of deep tissue work on an athlete's upper back and shoulder, " +
       "therapist's hands applying pressure, dark room, low warm key light, matte skin texture, " +
       "professional and restrained.",
+      ["Slower, deeper work", "Restricted areas", "Persistent tightness"],
   ),
-  recoveryMobility: support(
+  recoveryMobility: pending(
     "recoveryMobility",
     "/images/recovery-mobility.jpg",
     "Mobility work between training sessions",
@@ -312,13 +361,25 @@ export const images = {
     "An athlete foam rolling a quadricep on dark rubber gym flooring, side-on camera at floor " +
       "level, dark gym falling away behind, single hard light from the right, real effort in the " +
       "posture.",
+      ["Scheduled around training", "Consistency", "Readiness"],
+  ),
+
+  recoveryGuidance: pending(
+    "recoveryGuidance",
+    "/images/recovery-guidance.jpg",
+    "Mobility guidance to continue between sessions",
+    "4/3",
+    "A coach talking a client through a mobility drill they will repeat at home.",
+    "A therapist demonstrating a hip mobility drill to an athlete on a dark gym floor, both " +
+      "mid-conversation rather than posed, single soft key light, instructional and calm.",
+    ["Mobility work", "Between sessions", "Guidance you continue"],
   ),
 
   /* ------------------------- SUPPORT — content --------------------------- */
-  journal01: support("journal01", "/images/journal-01.jpg", "Training education content", "16/9", "Thumbnail for a training-education post.", "A rack of barbells and plates in a dark gym, shot as a clean graphic composition, no people, hard side light, deep shadow."),
-  journal02: support("journal02", "/images/journal-02.jpg", "Nutrition education content", "16/9", "Thumbnail for a nutrition post.", "A simple overhead of portioned whole foods on a charcoal surface — eggs, rice, greens, curd — arranged as a clean grid, no text."),
-  journal03: support("journal03", "/images/journal-03.jpg", "Weekly progress update", "16/9", "Thumbnail for a weekly progress update.", "A worn training notebook and a pencil on a gym bench beside a chalk-dusted hand, dark environment, single warm light, documentary."),
-  journal04: support("journal04", "/images/journal-04.jpg", "Recovery education content", "16/9", "Thumbnail for a recovery post.", "A foam roller and massage tools laid out on a dark treatment table, top-down, soft even light, clean and clinical, no people."),
+  journal01: pending("journal01", "/images/journal-01.jpg", "Training education content", "16/9", "Thumbnail for a training-education post.", "A rack of barbells and plates in a dark gym, shot as a clean graphic composition, no people, hard side light, deep shadow."),
+  journal02: pending("journal02", "/images/journal-02.jpg", "Nutrition education content", "16/9", "Thumbnail for a nutrition post.", "A simple overhead of portioned whole foods on a charcoal surface — eggs, rice, greens, curd — arranged as a clean grid, no text."),
+  journal03: pending("journal03", "/images/journal-03.jpg", "Weekly progress update", "16/9", "Thumbnail for a weekly progress update.", "A worn training notebook and a pencil on a gym bench beside a chalk-dusted hand, dark environment, single warm light, documentary."),
+  journal04: pending("journal04", "/images/journal-04.jpg", "Recovery education content", "16/9", "Thumbnail for a recovery post.", "A foam roller and massage tools laid out on a dark treatment table, top-down, soft even light, clean and clinical, no people."),
 
   /* ======================================================================
      CLIENT — real, consented photography only. Never fabricate.
@@ -330,17 +391,24 @@ export const images = {
   transformation03Before: client("transformation03Before", "/images/transformation-03-before.jpg", "Client transformation, before", "4/5", "Day 1 baseline photo."),
   transformation03After: client("transformation03After", "/images/transformation-03-after.jpg", "Client transformation, after", "4/5", "Progress photo."),
 
-  /* Programme milestone markers. These illustrate the PROCESS, not a client's
-     body, so they are filled with generated tiles rather than left blank. */
-  dayOne: support("dayOne", "/images/day-01.jpg", "Day 1 milestone marker", "1/1",
+  /* Programme milestone markers. These describe the PROCESS, not a client's
+     body — so each frame lists what actually happens at that review rather
+     than showing a stand-in picture of it. */
+  dayOne: pending("dayOne", "/images/day-01.jpg", "Day 1 milestone marker", "1/1",
     "Baseline milestone marker.",
-    "Assessment day: notebook, tape measure and the first session, dark gym, documentary."),
-  dayThirty: support("dayThirty", "/images/day-30.jpg", "Day 30 milestone marker", "1/1",
+    "Assessment day: notebook, tape measure and the first session, dark gym, documentary.",
+    ["Assessment", "Measurements", "Starting photographs"],
+  ),
+  dayThirty: pending("dayThirty", "/images/day-30.jpg", "Day 30 milestone marker", "1/1",
     "Mid-programme milestone marker.",
-    "Mid-programme check-in: coach and client reviewing numbers together, dark gym."),
-  daySixty: support("daySixty", "/images/day-60.jpg", "Day 60 milestone marker", "1/1",
+    "Mid-programme check-in: coach and client reviewing numbers together, dark gym.",
+    ["Training loads", "Measurements", "Lifestyle fit"],
+  ),
+  daySixty: pending("daySixty", "/images/day-60.jpg", "Day 60 milestone marker", "1/1",
     "Sixty-day milestone marker.",
-    "Sixty-day review session: measurements being taken, calm and factual, dark gym."),
+    "Sixty-day review session: measurements being taken, calm and factual, dark gym.",
+    ["Composition", "Strength", "Habits"],
+  ),
 } satisfies Record<string, ImageSlot>;
 
 export type ImageKey = keyof typeof images;

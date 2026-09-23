@@ -26,7 +26,6 @@ export default function NutritionPage() {
         index="01"
         lines={["Eat to", "support the goal."]}
         supporting="Protein, structure and food you already eat. Nutrition guidance designed to survive a normal working week — not a two-week diet you abandon."
-        image="nutrition"
         placeholder="minimal"
         primary={{ label: "Get Nutrition Guidance", href: "/contact" }}
         secondary={{ label: "See Coaching", href: "/coaching#nutrition" }}

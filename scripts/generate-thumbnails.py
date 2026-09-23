@@ -313,13 +313,43 @@ PLATE_SPLIT = {
 # These slots are now backed by REAL photographs (scripts/prepare-photos.py).
 # Regenerating a tile over them would silently destroy the photography, so they
 # are skipped. Remove a name here only if you want the tile back.
+# Slots that no longer take a generated tile.
+#
+# The tiles were meant to stop cards shipping blank, but an abstract mark in a
+# photographic frame reads as a broken image, not as art direction: "High-protein
+# meal ideas" was a stack of grey rectangles and "Sports massage" was five wavy
+# lines. Anything in this set is now either a real photograph or, where no honest
+# photograph exists, a <DetailPanel> carrying the topic's own specifics.
+#
+# This script is kept because the motif library is still the reference for the
+# brand's graphic language — but it no longer writes into /public/images for
+# these slots.
 REPLACED_BY_PHOTOGRAPHY = {
+    # real photography
     "strength-training",
     "hypertrophy",
     "personal-training",
     "offline-coaching",
     "functional-training",
     "fundamental-movement",
+    "online-coaching",
+    # no honest photograph — rendered as a detail panel instead
+    "conditioning",
+    "nutrition",
+    "nutrition-protein",
+    "nutrition-pre-workout",
+    "nutrition-post-workout",
+    "nutrition-indian",
+    "recovery",
+    "recovery-deep-tissue",
+    "recovery-mobility",
+    "journal-01",
+    "journal-02",
+    "journal-03",
+    "journal-04",
+    "day-01",
+    "day-30",
+    "day-60",
 }
 
 BASE_W = 1080

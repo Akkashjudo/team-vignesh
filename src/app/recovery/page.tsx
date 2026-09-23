@@ -26,7 +26,6 @@ export default function RecoveryPage() {
         index="01"
         lines={["Train.", "Recover.", "Repeat."]}
         supporting={recoveryPage.intro}
-        image="recoveryDeepTissue"
         placeholder="minimal"
         primary={{ label: "Book A Recovery Session", href: "/contact" }}
         secondary={{ label: "See Coaching", href: "/coaching#recovery" }}
