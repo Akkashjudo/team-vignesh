@@ -86,6 +86,62 @@ html {
   clip-path: none !important;
 }
 
+/* ==========================================================================
+   REVEAL FAILSAFE
+   --------------------------------------------------------------------------
+   Entrance animations start from a hidden state: RevealImage from a fully
+   clipped frame, the text primitives from opacity 0. If that animation never
+   runs, the content is not merely un-animated — it is invisible. That is how
+   the founder photographs disappeared: their clip-path stayed at
+   inset(100% 0 0 0).
+
+   A CSS animation outranks an inline style for the property it animates, so
+   this forces the finished state a few seconds in. Every real entrance has
+   completed by ~2s (the slowest is the hero credentials strip at ~1.8s), so
+   this only ever bites when the motion layer has failed — a starved rAF, a
+   backgrounded tab that never repainted, a JS error earlier on the page.
+
+   Scoped to .reveal-safe / .reveal-clip, which only the motion primitives
+   carry, so a deliberate opacity-0 hover affordance is never forced visible.
+   ========================================================================== */
+@keyframes reveal-failsafe-fade {
+  to {
+    opacity: 1;
+    /* RevealText/RevealItem slide from y:24 and HeroLines from y:108% inside an
+       overflow-hidden span, so a stalled transform leaves the line outside its
+       own clip box. Every primitive finishes with no transform, so `none` is
+       the real end state, never a lost effect. */
+    transform: none;
+  }
+}
+
+@keyframes reveal-failsafe-clip {
+  to {
+    opacity: 1;
+    clip-path: inset(0% 0% 0% 0%);
+    transform: none;
+  }
+}
+
+/* Text and fades. Deliberately does NOT touch clip-path: forcing
+   `inset(0%)` onto a heading line clips ~8px of glyph descenders, because a
+   display line box is taller than the element's content box. */
+.reveal-safe {
+  animation: reveal-failsafe-fade 0.01s linear 3s forwards;
+}
+
+/* Masked image frames only — these are the ones that start fully clipped. */
+.reveal-clip {
+  animation: reveal-failsafe-clip 0.01s linear 3s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-safe,
+  .reveal-clip {
+    animation-delay: 0s;
+  }
+}
+
 body {
   background-color: var(--ink);
   color: var(--bone);

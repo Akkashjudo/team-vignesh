@@ -173,7 +173,11 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: reduced ? 0.15 : 0.35, ease: EASE }}
-            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink lg:hidden"
+            /* z-45 is deliberate: above the floating WhatsApp button (z-40),
+               which otherwise painted over the panel and swallowed taps on the
+               right end of "Start Your Coaching", and still below the header
+               (z-50) so the close control stays reachable. */
+            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto bg-ink lg:hidden"
           >
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 grid-field opacity-50" />
 

@@ -37,7 +37,10 @@ export default function ContactPage() {
           aria-hidden="true"
           className="pointer-events-none absolute -left-28 top-32 opacity-[0.06]"
         >
-          <LogoMark size={460} />
+          <LogoMark
+            className="h-[240px] sm:h-[340px] lg:h-[460px]"
+            sizes="(max-width: 640px) 233px, (max-width: 1024px) 330px, 446px"
+          />
         </div>
 
         <div className="shell grid gap-12 pb-20 pt-14 sm:pt-20 lg:grid-cols-12 lg:gap-14 lg:pb-28">

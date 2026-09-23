@@ -61,10 +61,18 @@ export function Figure({
     ? `${ratioClass[ratioMobile]} ${ratioClassSm[resolved]}`
     : ratioClass[resolved];
 
+  /* `cn` is a plain joiner, so a caller passing `absolute` would leave BOTH
+     position classes on the element — and Tailwind emits `.relative` after
+     `.absolute`, so `relative` would win and a full-bleed backdrop would
+     collapse into the flow at zero height. Yield the base position whenever
+     the caller has chosen one. */
+  const positioned = /(^|\s)(absolute|fixed|sticky)(\s|$)/.test(className ?? "");
+
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-sm",
+        !positioned && "relative",
+        "overflow-hidden rounded-sm",
         !className?.includes("aspect-") && !className?.includes("h-full") && aspect,
         className,
       )}

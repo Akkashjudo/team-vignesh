@@ -63,7 +63,7 @@ export function RevealText({
 
   return (
     <Comp
-      className={className}
+      className={cn("reveal-safe", className)}
       initial={reduced ? { opacity: 1, y: 0 } : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, amount }}
@@ -160,7 +160,7 @@ export function RevealItem({
   const Comp = m[Tag];
   return (
     <Comp
-      className={className}
+      className={cn("reveal-safe", className)}
       variants={{
         hidden: reduced ? { opacity: 1, y: 0 } : { opacity: 0, y },
         show: {
@@ -205,14 +205,14 @@ export function RevealImage({
 
   return (
     <m.div
-      className={cn("overflow-hidden", className)}
+      className={cn("reveal-clip overflow-hidden", className)}
       initial={{ clipPath: reduced ? open : closed }}
       whileInView={{ clipPath: open }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: reduced ? 0 : DUR.image, delay: reduced ? 0 : delay, ease: EASE }}
     >
       <m.div
-        className="h-full w-full"
+        className="reveal-safe h-full w-full"
         initial={{ scale: reduced ? 1 : scale }}
         whileInView={{ scale: 1 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -270,7 +270,7 @@ export function HeroLines({
     <Tag id={id} className={className}>
       {lines.map((line, i) => (
         <span key={line} className="block overflow-hidden pb-[0.08em]">
-          <m.span className={cn("block", lineClassName)} {...anim(i)}>
+          <m.span className={cn("reveal-safe block", lineClassName)} {...anim(i)}>
             {line}
           </m.span>
         </span>
@@ -300,7 +300,7 @@ export function FadeIn({
   const Comp = m[Tag];
   return (
     <Comp
-      className={className}
+      className={cn("reveal-safe", className)}
       initial={reduced ? { opacity: 1, y: 0 } : { opacity: 0, y }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: reduced ? 0 : DUR.text, delay: reduced ? 0 : delay, ease: EASE }}

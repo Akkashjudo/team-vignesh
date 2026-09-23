@@ -34,7 +34,10 @@ export function ContactCTA({
         aria-hidden="true"
         className="pointer-events-none absolute -right-16 top-1/2 -translate-y-1/2 opacity-[0.07] sm:-right-8"
       >
-        <LogoMark size={520} />
+        <LogoMark
+          className="h-[260px] sm:h-[380px] lg:h-[520px]"
+          sizes="(max-width: 640px) 252px, (max-width: 1024px) 369px, 504px"
+        />
       </div>
 
       <div className="shell relative section">
