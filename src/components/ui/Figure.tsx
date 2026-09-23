@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { images, ratioClass, type ImageKey } from "@/lib/images";
+import { images, ratioClass, ratioClassSm, type ImageKey } from "@/lib/images";
+import { blurDataUrls } from "@/lib/blur";
 import { cn } from "@/lib/utils";
 
 /**
@@ -16,6 +17,7 @@ export function Figure({
   sizes = "(max-width: 768px) 100vw, 50vw",
   priority = false,
   ratio,
+  ratioMobile,
   tone = "dark",
   showNote = true,
   placeholder = "detailed",
@@ -29,6 +31,12 @@ export function Figure({
   priority?: boolean;
   /** Override the slot's default aspect ratio for a particular layout. */
   ratio?: keyof typeof ratioClass;
+  /**
+   * A shorter crop below the `sm` breakpoint. Card images that look right at
+   * 4/3 on a desktop grid are 250px of dead height on a 375px phone, so most
+   * cards pass a wide ratio here and their designed one above.
+   */
+  ratioMobile?: keyof typeof ratioClass;
   tone?: "dark" | "bone";
   showNote?: boolean;
   /**
@@ -48,7 +56,10 @@ export function Figure({
   children?: React.ReactNode;
 }) {
   const meta = images[slot];
-  const aspect = ratioClass[ratio ?? meta.ratio];
+  const resolved = ratio ?? meta.ratio;
+  const aspect = ratioMobile
+    ? `${ratioClass[ratioMobile]} ${ratioClassSm[resolved]}`
+    : ratioClass[resolved];
 
   return (
     <div
@@ -70,6 +81,10 @@ export function Figure({
           sizes={sizes}
           priority={priority}
           loading={priority ? undefined : "lazy"}
+          /* An LQIP means the frame is never an empty box while the file
+             decodes — the main thing that read as "slow images". */
+          placeholder={blurDataUrls[meta.src] ? "blur" : "empty"}
+          blurDataURL={blurDataUrls[meta.src]}
           /* meta.grade first so a caller can still override it per placement. */
           className={cn("object-cover", meta.grade, imageClassName)}
         />

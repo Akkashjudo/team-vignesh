@@ -49,7 +49,9 @@ const config: Config = {
       },
       spacing: {
         gutter: "clamp(1.25rem, 4vw, 4.5rem)",
-        section: "clamp(4.5rem, 9vw, 9.5rem)",
+        // Mobile end pulled in hard: the old floor put ~2000px of pure
+        // padding into a phone scroll across 14 sections.
+        section: "clamp(3.5rem, 2rem + 5vw, 9rem)",
       },
       letterSpacing: {
         tightest: "-0.045em",

@@ -6,6 +6,7 @@ import { Surface } from "@/components/ui/Surface";
 import { SectionLabel, SectionHeading } from "@/components/ui/SectionLabel";
 import { Reveal, RevealGroup, RevealItem, RevealMask } from "@/components/ui/Motion";
 import { Figure } from "@/components/ui/Figure";
+import { MediaCard } from "@/components/cards/MediaCard";
 import { Button } from "@/components/ui/Button";
 import { nutritionCards, nutritionPage, nutritionTopics } from "@/lib/content";
 import { waMessages } from "@/lib/site";
@@ -177,23 +178,14 @@ export default function NutritionPage() {
           >
             {nutritionCards.map((card) => (
               <RevealItem key={card.title} as="li">
-                <article className="hover-lift hover-zoom group flex h-full flex-col overflow-hidden rounded-sm border border-bone-line bg-bone hover:border-ink/25">
-                  <Figure
-                    slot={card.image}
-                    ratio="4/3"
-                    className="w-full rounded-none border-b border-bone-line"
-                    sizes="(max-width: 640px) 100vw, 25vw"
-                    tone="bone"
-                    showNote={false}
-                  />
-                  <div className="flex flex-1 flex-col p-5">
-                    <span className="index text-[0.6875rem] text-accent-ink">{card.index}</span>
-                    <h3 className="display display-sm mt-3 text-ink">{card.title}</h3>
-                    <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink/60">
-                      {card.body}
-                    </p>
-                  </div>
-                </article>
+                <MediaCard
+                  index={card.index}
+                  title={card.title}
+                  body={card.body}
+                  image={card.image}
+                  tone="bone"
+                  sizes="(max-width: 640px) 30vw, 25vw"
+                />
               </RevealItem>
             ))}
           </RevealGroup>

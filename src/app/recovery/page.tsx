@@ -6,6 +6,7 @@ import { Surface } from "@/components/ui/Surface";
 import { SectionLabel, SectionHeading } from "@/components/ui/SectionLabel";
 import { Reveal, RevealGroup, RevealItem, RevealMask } from "@/components/ui/Motion";
 import { Figure } from "@/components/ui/Figure";
+import { MediaCard } from "@/components/cards/MediaCard";
 import { Button } from "@/components/ui/Button";
 import { recoveryNote, recoveryPage, recoveryServices } from "@/lib/content";
 import { waMessages, whatsappLink } from "@/lib/site";
@@ -64,21 +65,15 @@ export default function RecoveryPage() {
           >
             {recoveryServices.map((service) => (
               <RevealItem key={service.title} as="li">
-                <article className="hover-lift hover-zoom group flex h-full flex-col overflow-hidden rounded-sm border border-bone-line bg-bone hover:border-ink/25">
-                  <Figure
-                    slot={service.image}
-                    ratio="3/2"
-                    className="w-full rounded-none border-b border-bone-line"
-                    sizes="(max-width: 640px) 100vw, 45vw"
-                    tone="bone"
-                    showNote={false}
-                  />
-                  <div className="flex flex-1 flex-col p-5 sm:p-6">
-                    <span className="index text-[0.6875rem] text-accent-ink">{service.index}</span>
-                    <h3 className="display display-sm mt-3 text-ink">{service.title}</h3>
-                    <p className="copy mt-2.5 max-w-[42ch] text-ink/60">{service.body}</p>
-                  </div>
-                </article>
+                <MediaCard
+                  index={service.index}
+                  title={service.title}
+                  body={service.body}
+                  image={service.image}
+                  tone="bone"
+                  ratio="3/2"
+                  sizes="(max-width: 640px) 30vw, 45vw"
+                />
               </RevealItem>
             ))}
           </RevealGroup>

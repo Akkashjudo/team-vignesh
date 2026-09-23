@@ -34,7 +34,7 @@ export function ContentCard({
         )}
       </Figure>
 
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
+      <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
         <div className="flex items-center gap-2.5">
           <span aria-hidden="true" className="h-1 w-1 rotate-45 bg-accent" />
           <span className="label text-bone/55">{post.category}</span>

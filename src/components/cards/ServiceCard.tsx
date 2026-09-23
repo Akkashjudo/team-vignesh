@@ -31,13 +31,14 @@ export function ServiceCard({
         <Figure
           slot={service.image}
           ratio="3/2"
+          ratioMobile="16/9"
           className="w-full rounded-none border-b border-ink-line"
           sizes="(max-width: 1024px) 100vw, 50vw"
           overlay="bottom"
           showNote={false}
         />
 
-        <div className="flex flex-1 flex-col p-5 sm:p-7">
+        <div className="flex flex-1 flex-col p-4 sm:p-7">
           <div className="flex items-start justify-between gap-4">
             <span className="index text-[0.6875rem] text-accent-text">{service.index}</span>
             <span className="label rounded-sm border border-accent/40 px-2 py-1 text-accent-text">
@@ -45,10 +46,10 @@ export function ServiceCard({
             </span>
           </div>
 
-          <h3 className="display display-md mt-5 text-bone">{service.title}</h3>
+          <h3 className="display display-md mt-4 text-bone sm:mt-5">{service.title}</h3>
           <p className="copy mt-3 max-w-[42ch] text-bone/60">{service.short}</p>
 
-          <span className="mt-6 flex items-center gap-2.5 font-display text-[0.8125rem] font-bold uppercase tracking-[0.08em] text-bone">
+          <span className="mt-5 flex items-center gap-2.5 font-display sm:mt-6 text-[0.8125rem] font-bold uppercase tracking-[0.08em] text-bone">
             {service.cta.label}
             <svg
               width="15"

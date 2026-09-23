@@ -1,7 +1,7 @@
 import { Surface } from "@/components/ui/Surface";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { HeroLines, RevealGroup, RevealItem, RevealText } from "@/components/ui/Motion";
-import { Figure } from "@/components/ui/Figure";
+import { MediaCard } from "@/components/cards/MediaCard";
 import { Button } from "@/components/ui/Button";
 import { recoveryNote, recoveryServices } from "@/lib/content";
 
@@ -57,22 +57,13 @@ export function RecoveryStrip() {
         >
           {recoveryServices.map((service) => (
             <RevealItem key={service.title} as="li">
-              <article className="hover-lift hover-zoom group flex h-full flex-col overflow-hidden rounded-sm border border-ink-line bg-ink-elevated hover:border-accent/45">
-                <Figure
-                  slot={service.image}
-                  ratio="4/3"
-                  className="w-full rounded-none border-b border-ink-line"
-                  sizes="(max-width: 640px) 100vw, 30vw"
-                  showNote={false}
-                />
-                <div className="flex flex-1 flex-col p-5">
-                  <span className="index text-[0.6875rem] text-accent-text">{service.index}</span>
-                  <h3 className="display display-sm mt-3 text-bone">{service.title}</h3>
-                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-bone/60">
-                    {service.body}
-                  </p>
-                </div>
-              </article>
+              <MediaCard
+                index={service.index}
+                title={service.title}
+                body={service.body}
+                image={service.image}
+                sizes="(max-width: 640px) 30vw, 30vw"
+              />
             </RevealItem>
           ))}
         </RevealGroup>

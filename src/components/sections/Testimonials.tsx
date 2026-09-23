@@ -48,7 +48,7 @@ export function Testimonials() {
           <RevealText delay={0.1} className="lg:col-span-5 lg:pb-2">
             <p className="copy max-w-[40ch] text-bone/60">
               Written by clients who train with Vignesh. Nothing here is edited
-              for marketing.
+              for marketing. Tap a story to read it in full.
             </p>
           </RevealText>
         </div>
@@ -56,7 +56,7 @@ export function Testimonials() {
         <div className="mt-12 grid gap-4 lg:grid-cols-12">
           {/* ---------------- Featured ---------------- */}
           <RevealImage className="rounded-sm lg:col-span-7">
-            <figure className="relative h-full overflow-hidden rounded-sm border border-ink-line bg-ink p-6 sm:p-9 lg:p-11">
+            <figure className="relative h-full overflow-hidden rounded-sm border border-ink-line bg-ink p-5 sm:p-9 lg:p-11">
               <QuoteMark className="absolute right-5 top-4 h-16 w-16 text-bone/[0.05] sm:h-24 sm:w-24" />
 
               {/* Keyed fade-in rather than AnimatePresence mode="wait": the
@@ -99,22 +99,22 @@ export function Testimonials() {
                   onClick={() => setActiveId(t.id)}
                   aria-label={`Read the full story from ${t.name}`}
                   className={cn(
-                    "hover-lift group flex h-full w-full flex-col rounded-sm border border-ink-line bg-ink p-5 text-left",
-                    "transition-colors hover:border-accent/50 sm:p-7",
+                    "hover-lift group flex h-full w-full flex-col rounded-sm border border-ink-line bg-ink p-4 text-left",
+                    "transition-colors hover:border-accent/50 sm:p-6",
                   )}
                 >
                   <span aria-hidden="true" className="block h-[2px] w-8 bg-accent/70 transition-all duration-500 group-hover:w-12" />
 
-                  <p className="mt-5 font-display text-[1.0625rem] font-bold uppercase leading-tight tracking-[0.01em] text-bone sm:text-[1.1875rem]">
+                  <p className="mt-4 font-display text-[1rem] font-bold uppercase leading-tight tracking-[0.01em] text-bone sm:text-[1.125rem]">
                     &ldquo;{t.headline}&rdquo;
                   </p>
 
                   {/* Full text stays in the DOM — clamped, never hidden. */}
-                  <p className="mt-4 line-clamp-4 text-[0.9375rem] leading-relaxed text-bone/55">
+                  <p className="mt-3 line-clamp-3 text-[0.875rem] leading-relaxed text-bone/55 sm:text-[0.9375rem]">
                     {t.quote}
                   </p>
 
-                  <span className="mt-auto flex items-center justify-between gap-4 pt-6">
+                  <span className="mt-auto flex items-center justify-between gap-4 pt-5">
                     <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
                       <span className="font-display text-[0.8125rem] font-bold uppercase tracking-[0.08em] text-bone/90">
                         {t.name}

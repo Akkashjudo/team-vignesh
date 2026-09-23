@@ -345,7 +345,14 @@ export const images = {
 
 export type ImageKey = keyof typeof images;
 
-/** Aspect-ratio class map — keeps Tailwind aware of every value in use. */
+/**
+ * Aspect-ratio class maps. Every class is written out in full so Tailwind's
+ * scanner can see it — these are never composed from fragments at runtime.
+ *
+ * `ratioClassSm` exists so a card can carry a short, wide crop on a phone and
+ * its designed ratio from `sm:` up. Without it a 4/3 image on a 375px screen
+ * is 250px tall and swallows the card.
+ */
 export const ratioClass: Record<Ratio, string> = {
   "1/1": "aspect-square",
   "3/4": "aspect-[3/4]",
@@ -355,4 +362,15 @@ export const ratioClass: Record<Ratio, string> = {
   "16/9": "aspect-video",
   "21/9": "aspect-[21/9]",
   "9/16": "aspect-[9/16]",
+};
+
+export const ratioClassSm: Record<Ratio, string> = {
+  "1/1": "sm:aspect-square",
+  "3/4": "sm:aspect-[3/4]",
+  "4/5": "sm:aspect-[4/5]",
+  "4/3": "sm:aspect-[4/3]",
+  "3/2": "sm:aspect-[3/2]",
+  "16/9": "sm:aspect-video",
+  "21/9": "sm:aspect-[21/9]",
+  "9/16": "sm:aspect-[9/16]",
 };

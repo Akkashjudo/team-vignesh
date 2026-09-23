@@ -413,6 +413,15 @@ export const testimonials: Testimonial[] = [
     image: null,
   },
   {
+    id: "hema",
+    name: "Hema",
+    role: "TEAM VIGNESH Client",
+    headline: "Dynamic and holistic — tailored to what my training actually needs.",
+    quote:
+      "I have thoroughly enjoyed how dynamic and holistic these training sessions are. They are tailored with a multi-faceted approach, which addresses my training requirements, while helping me build strength, endurance, muscle, and better posture.",
+    image: null,
+  },
+  {
     id: "yashpal",
     name: "Yashpal Sharma",
     role: "TEAM VIGNESH Client",
